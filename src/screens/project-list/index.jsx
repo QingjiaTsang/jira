@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { cleanObj } from "utils"
+import { cleanObj, useDebounce } from "utils"
 import { List } from "./list"
 import { SearchPanel } from "./search-panel"
 import qs from "qs"
@@ -11,18 +11,19 @@ export const ProjectListScreen = () => {
       name: '',
       personId: ''
     });
-  const [users, setUsers] = useState()
-  const [listData, setListData] = useState()
+  const [users, setUsers] = useState();
+  const [listData, setListData] = useState();
+  const debouncedParam = useDebounce(searchParam, 1000);
 
   useEffect(() => {
-    fetch(`${apiUrl}/projects?${qs.stringify(cleanObj(searchParam))}`)
+    fetch(`${apiUrl}/projects?${qs.stringify(cleanObj(debouncedParam))}`)
     .then(async response => {
       if (response.ok) {
         setListData(await response.json())
       }
     })
 
-  }, [searchParam])
+  }, [debouncedParam])
 
   useEffect(() => {
     fetch(`${apiUrl}/users`)
