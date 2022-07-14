@@ -21,7 +21,6 @@ export const useMount = (callback: Function) => {
   }, []);
 };
 
-// 后面用泛型来规范类型
 export const useDebounce = <V>(value: V, delay?: number) => {
   const [debouncedValue, setDebouncedValue] = useState(value);
 
@@ -33,4 +32,24 @@ export const useDebounce = <V>(value: V, delay?: number) => {
   }, [value, delay]);
 
   return debouncedValue;
+};
+
+interface Person {
+  name: string;
+  age: number;
+}
+// clear, removeIndx, add
+export const useArray = (persons: Person[]) => {
+  const [value, setValue] = useState(persons);
+
+  const clear = () => {
+    setValue([]);
+  };
+  const removeIndx = (idx: number) => {
+    setValue(value.filter((person, index) => index !== idx));
+  };
+  const add = (person: Person) => {
+    setValue([...value, person]);
+  };
+  return { value, clear, removeIndx, add };
 };
