@@ -3,13 +3,7 @@ import { cleanObj, useDebounce, useMount } from "utils";
 import { List } from "./list";
 import { SearchPanel } from "./search-panel";
 import qs from "qs";
-export interface User {
-  id: string;
-  name: string;
-  email: string;
-  title: string;
-  organization: string;
-}
+
 const apiUrl = process.env.REACT_APP_API_URL;
 
 export const ProjectListScreen = () => {
@@ -39,8 +33,6 @@ export const ProjectListScreen = () => {
       }
     });
   });
-
-  // console.log('users',users)
 
   return (
     <div>
