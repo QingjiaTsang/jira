@@ -1,13 +1,27 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { ReactNode } from "react";
 import { useState } from "react";
 import * as auth from "auth-provider";
 import { User } from "../screens/project-list/search-panel";
+import { http } from "utils/http";
+import { useMount } from "utils";
 
 interface AuthForm {
   username: string;
   password: string;
 }
+
+// 初始化User，使得每次刷新页面也能够获取到登录态而非重置掉user值为初值null
+const boostrapUser = async () => {
+  let user = null;
+  const token = auth.getToken() || undefined;
+  if (token) {
+    // 通过获取到的token向后端查找其映射的user数据并返回
+    const data = await http("me", { token });
+    user = data.user;
+  }
+  return user;
+};
 
 // 在【全局】创建context出来，并传入默认值undefined。
 // 这儿要做一下context值的类型限定，context的value值和默认值都是同一个类型，不限制会默认类型为默认值的类型undefined
@@ -17,7 +31,7 @@ const AuthContext = React.createContext<
       user: User | null;
       login: (form: AuthForm) => Promise<void>;
       register: (form: AuthForm) => Promise<void>;
-      logout: (form: AuthForm) => Promise<void>;
+      logout: () => Promise<void>;
     }
   | undefined
 >(undefined);
@@ -31,6 +45,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const login = (form: AuthForm) => auth.login(form).then(setUser);
   const register = (form: AuthForm) => auth.register(form).then(setUser);
   const logout = () => auth.logout().then(() => setUser(null));
+
+  useMount(() => {
+    boostrapUser().then(setUser);
+  });
 
   return (
     <AuthContext.Provider

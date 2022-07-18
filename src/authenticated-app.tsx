@@ -6,7 +6,7 @@ export const AuthenticatedPage = () => {
   return (
     <div>
       <div>{user?.name}</div>
-      <button onClick={() => logout}>登出</button>
+      <button onClick={() => logout()}>登出</button>
       <ProjectListScreen />
     </div>
   );
