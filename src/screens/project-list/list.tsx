@@ -1,3 +1,4 @@
+import { Table } from "antd";
 import { User } from "./search-panel";
 
 interface Project {
@@ -14,6 +15,27 @@ interface ListProps {
 }
 
 export const List = ({ listData, users }: ListProps) => {
+  const columns = [
+    {
+      title: "名称",
+      dataIndex: "name",
+      key: "name",
+    },
+    {
+      title: "负责人",
+      dataIndex: "manerger",
+      key: "manerger",
+      render: (value: any, project: Project) => {
+        return (
+          <span>
+            {users?.find((user) => user.id === project.personId)?.name}
+          </span>
+        );
+      },
+    },
+  ];
+  return <Table pagination={false} columns={columns} dataSource={listData} />;
+
   return (
     <table>
       <thead>

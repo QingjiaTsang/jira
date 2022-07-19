@@ -1,3 +1,4 @@
+import { Select, Input, Form } from "antd";
 export interface User {
   id: string;
   name: string;
@@ -24,36 +25,34 @@ export const SearchPanel = ({
   // 思考清楚状态管理，不同组件间的通信
   // 这个组件涉及到了【状态提升】
   return (
-    <form>
-      <div>
-        <input
-          type="text"
-          value={searchParam.name}
-          onChange={(e) =>
-            setSearchParam({
-              ...searchParam,
-              name: e.target.value,
-            })
-          }
-        />
+    <Form>
+      <Input
+        type="text"
+        value={searchParam.name}
+        onChange={(e) =>
+          setSearchParam({
+            ...searchParam,
+            name: e.target.value,
+          })
+        }
+      />
 
-        <select
-          value={searchParam.personId}
-          onChange={(e) => {
-            setSearchParam({
-              ...searchParam,
-              personId: e.target.value,
-            });
-          }}
-        >
-          <option value="">负责人</option>
-          {users?.map((it) => (
-            <option value={it.id} key={it.id}>
-              {it.name}
-            </option>
-          ))}
-        </select>
-      </div>
-    </form>
+      <Select
+        value={searchParam.personId}
+        onChange={(value) => {
+          setSearchParam({
+            ...searchParam,
+            personId: value,
+          });
+        }}
+      >
+        <Select.Option value="">负责人</Select.Option>
+        {users?.map((it) => (
+          <Select.Option value={it.id} key={it.id}>
+            {it.name}
+          </Select.Option>
+        ))}
+      </Select>
+    </Form>
   );
 };

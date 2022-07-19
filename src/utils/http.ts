@@ -1,6 +1,5 @@
 import qs from "qs";
 import * as auth from "auth-provider";
-import { config } from "process";
 import { useAuth } from "context/auth-context";
 interface Config extends RequestInit {
   searchParam?: object;

@@ -1,3 +1,4 @@
+import { Button } from "antd";
 import { useAuth } from "context/auth-context";
 import { ProjectListScreen } from "screens/project-list";
 export const AuthenticatedPage = () => {
@@ -5,8 +6,8 @@ export const AuthenticatedPage = () => {
 
   return (
     <div>
-      <div>{user?.name}</div>
-      <button onClick={() => logout()}>登出</button>
+      <div>{`${user?.name}, 你好！`}</div>
+      <Button onClick={() => logout()}>登出</Button>
       <ProjectListScreen />
     </div>
   );
