@@ -1,5 +1,6 @@
 import { Form, Input, Button } from "antd";
 import { useAuth } from "context/auth-context";
+import { LongButton } from "unauthenticated-app";
 // const apiUrl = process.env.REACT_APP_API_URL;
 
 export const LoginScreen = () => {
@@ -11,7 +12,6 @@ export const LoginScreen = () => {
 
   return (
     <Form onFinish={handleSubmit}>
-      {user ? null : <div>请登录！</div>}
       <Form.Item
         name={"username"}
         rules={[{ required: true, message: "请输入用户名!" }]}
@@ -25,9 +25,9 @@ export const LoginScreen = () => {
         <Input placeholder={"密码"} type="password" id="password" />
       </Form.Item>
       <Form.Item>
-        <Button htmlType={"submit"} type={"primary"}>
+        <LongButton htmlType={"submit"} type={"primary"}>
           登录
-        </Button>
+        </LongButton>
       </Form.Item>
     </Form>
   );
